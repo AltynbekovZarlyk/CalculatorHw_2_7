@@ -2,8 +2,10 @@ package com.example.calculatorhw_2_7;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -13,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private Boolean isOperationClick;
     private String operation;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +24,21 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.text_vive);
     }
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        Button button = findViewById(R.id.bottom);
+        button.setOnClickListener(view -> {
+            intent.putExtra("key", result.toString());
+            startActivity(intent);
+        });
+    }
+
     public void onNumberClick(View view) {
         switch (view.getId()) {
+
 
             case R.id.btn_zero:
                 if (textView.getText().toString().equals("0")||isOperationClick) {
@@ -102,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
         }
         isOperationClick = false;
+        ((Button) findViewById(R.id.bottom)).setVisibility(View.GONE);
     }
 
     public void onOperationClick(View view) {
@@ -142,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
                        textView.setText(result.toString());
                        break;
                }
+                ((Button) findViewById(R.id.bottom)).setVisibility(View.VISIBLE);
+               break;
         }
         isOperationClick = true;
     }
